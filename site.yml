@@ -1,0 +1,10 @@
+---
+- name: Test Ansible deployment
+  hosts: workloads
+  become: yes
+
+  tasks:
+    - name: Create test file
+      file:
+        path: /tmp/ansible-success.txt
+        state: touch
