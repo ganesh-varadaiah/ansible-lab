@@ -8,3 +8,8 @@
       dnf:
         name: httpd
         state: present
+    
+    - name: start the service
+      service:
+        name: httpd
+        state: started
