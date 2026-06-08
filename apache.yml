@@ -1,0 +1,10 @@
+---
+- name: Install Apache
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install httpd
+      dnf:
+        name: httpd
+        state: present
