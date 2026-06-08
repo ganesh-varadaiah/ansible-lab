@@ -9,23 +9,33 @@ pipeline {
             }
         }
 
-        stage('Ansible Ping') {
+        stage('Who Am I') {
             steps {
                 sh '''
-                ansible all \
-                -i inventory/hosts \
-                -m ping
+                    whoami
+                    pwd
+                    ansible --version
                 '''
+            }
+        }
+
+        stage('Ansible Ping') {
+            steps {
+                sshagent(['ansible-key']) {
+                    sh '''
+                        ansible all -i inventory/hosts -m ping
+                    '''
+                }
             }
         }
 
         stage('Run Apache Playbook') {
             steps {
-                sh '''
-                ansible-playbook \
-                -i inventory/hosts \
-                apache.yml
-                '''
+                sshagent(['ansible-key']) {
+                    sh '''
+                        ansible-playbook -i inventory/hosts apache.yml
+                    '''
+                }
             }
         }
     }
